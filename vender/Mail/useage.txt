@@ -1,0 +1,53 @@
+<?php 
+header("content-type:text/html;charset=utf-8"); 
+ini_set("magic_quotes_runtime",0); 
+require 'class.phpmailer.php'; 
+try { 
+	$mail = new PHPMailer(true); 
+	$mail->IsSMTP(); 
+	
+	$mail->CharSet='UTF-8'; //设置邮件的字符编码，这很重要，不然中文乱码 
+	$mail->Encoding = "base64"; //编码方式
+	$mail->SMTPSecure = "ssl";                 // 安全协议，可以注释掉
+	$mail->SMTPAuth = true; //开启认证 
+	$mail->Port = 25; 
+	$mail->Host = "smtp.163.com"; 
+	$mail->Username = "phpddt1990@163.com"; 
+	$mail->Password = "这是密码"; 
+	$mail->Priority = 3; // 设置邮件优先级 1：高, 3：正常（默认）, 5：低  
+	//$mail->IsSendmail(); //如果没有sendmail组件就注释掉，否则出现“Could not execute: /var/qmail/bin/sendmail ”的错误提示 
+	
+	$mail->AddReplyTo("phpddt1990@163.com","mckee");//回复地址 
+	
+	$mail->ConfirmReadingTo = 'liruxing@wanzhao.com';     // 添加发送回执邮件地址，即当收件人打开邮件后，会询问是否发生回执  
+	
+	$mail->From = "phpddt1990@163.com";  /*发件人*/
+	$mail->FromName = "www.phpddt.com";  /*发件人名字*/
+	
+	
+	$mail->AddAddress('987044391@qq.com','name1'); //添加收件人（地址，昵称）
+	$mail->AddAddress('xxxxxxxx@163.com','name2'); //添加收件人（地址，昵称）
+	//$mail->addCC('cc@example.com');	//抄送 可添加多个
+	//$mail->addBCC('bcc@example.com');	//密送 可添加多个
+	
+	$mail->Subject = "phpmailer测试标题"; 
+	
+	$mail->Body = '你好, <b>朋友</b>! <br/>这是一封来自<a href="http://www.helloweba.com" target="_blank">helloweba.com</a>的邮件！<br/><img alt="helloweba" src="cid:my-attach">'; //邮件主体内容 txt 
+	//$body            = eregi_replace("[\]",'',$body); //对邮件内容进行必要的过滤
+	//$mail->MsgHTML(); //支持图片的html
+	
+	//$mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; //当邮件不支持html时备用显示，可以省略 
+	
+	$mail->WordWrap = 80; // 设置每行字符串的长度 
+	
+	$mail->AddAttachment('xx.xls','我的附件.xls');  //附件的路径，附件名字 可以添加多个
+	
+	$mail->AddEmbeddedImage("logo.jpg", "my-attach", "logo.jpg"); //设置邮件中的图片 （路径，id，名字） 可以添加多个
+	
+	$mail->IsHTML(true);  
+	$mail->Send(); 
+	echo '邮件已发送'; 
+} catch (phpmailerException $e) { 
+	echo "邮件发送失败：".$e->errorMessage(); 
+} 
+?> 
