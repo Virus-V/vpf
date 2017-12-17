@@ -1,2 +1,2 @@
 # vpf
-Virus.V PHP Framework
+Virus PHP Framework
